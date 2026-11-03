@@ -1,0 +1,35 @@
+/* Feels like / humidity / wind / precipitation cards */
+
+.metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.metric {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.25rem;
+    background-color: var(--neutral-800);
+    border: 1px solid var(--neutral-600);
+    border-radius: var(--radius-md);
+}
+
+.metric dt {
+    color: var(--neutral-200);
+    font-weight: 500;
+}
+
+.metric dd {
+    font-size: 2rem;
+    font-weight: 300;
+    white-space: nowrap;
+}
+
+@media (min-width: 40em) {
+    .metrics {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+    }
+}

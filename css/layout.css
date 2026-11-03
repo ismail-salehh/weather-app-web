@@ -1,0 +1,35 @@
+/* Weather layout: main column + hourly sidebar */
+
+.weather {
+    display: grid;
+    gap: 2rem;
+    margin-block: 2rem 3rem;
+}
+
+.weather-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    min-width: 0;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+@media (min-width: 40em) {
+    .weather {
+        margin-top: 3rem;
+    }
+
+    .weather-main {
+        gap: 2rem;
+    }
+}
+
+@media (min-width: 64em) {
+    .weather {
+        grid-template-columns: 1fr 24rem;
+    }
+}

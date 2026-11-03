@@ -1,0 +1,55 @@
+/* Daily forecast */
+
+.daily {
+    margin-top: 0.75rem;
+}
+
+.daily-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.25rem;
+}
+
+.day-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    min-height: 10.3125rem;
+    padding: 1rem 0.625rem;
+    background-color: var(--neutral-800);
+    border: 1px solid var(--neutral-600);
+    border-radius: var(--radius-md);
+}
+
+.day-name {
+    font-size: 1.125rem;
+    font-weight: 500;
+}
+
+.day-icon {
+    width: 3.75rem;
+}
+
+.day-temps {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.day-min {
+    color: var(--neutral-200);
+}
+
+@media (min-width: 40em) {
+    .daily {
+        margin-top: 0;
+    }
+
+    .daily-list {
+        grid-template-columns: repeat(7, 1fr);
+    }
+}

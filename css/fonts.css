@@ -1,0 +1,25 @@
+/* Self-hosted fonts (DM Sans, Bricolage Grotesque) */
+
+@font-face {
+    font-family: "DM Sans";
+    src: url("../assets/fonts/DMSans-VariableFont_opsz,wght.ttf") format("truetype");
+    font-weight: 300 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "DM Sans";
+    src: url("../assets/fonts/DMSans-Italic-VariableFont_opsz,wght.ttf") format("truetype");
+    font-weight: 300 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Bricolage Grotesque";
+    src: url("../assets/fonts/BricolageGrotesque-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}

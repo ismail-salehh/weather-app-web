@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Weather Now">
+        <title>Weather Now</title>
+        <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+        <link rel="preconnect" href="https://api.open-meteo.com">
+        <link rel="preconnect" href="https://geocoding-api.open-meteo.com">
+        <link rel="preload" href="../assets/fonts/DMSans-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin>
+        <!-- Order matters: base styles first, then components, then page sections -->
+        <link rel="stylesheet" href="../css/fonts.css">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/reset.css">
+        <link rel="stylesheet" href="../css/base.css">
+        <link rel="stylesheet" href="../css/buttons.css">
+        <link rel="stylesheet" href="../css/dropdown.css">
+        <link rel="stylesheet" href="../css/header.css">
+        <link rel="stylesheet" href="../css/search.css">
+        <link rel="stylesheet" href="../css/layout.css">
+        <link rel="stylesheet" href="../css/current.css">
+        <link rel="stylesheet" href="../css/metrics.css">
+        <link rel="stylesheet" href="../css/daily.css">
+        <link rel="stylesheet" href="../css/hourly.css">
+        <link rel="stylesheet" href="../css/error.css">
+        <!-- Order matters: each file uses functions from the ones above it -->
+        <script src="../js/units.js" defer></script>
+        <script src="../js/weather-codes.js" defer></script>
+        <script src="../js/api.js" defer></script>
+        <script src="../js/dropdown.js" defer></script>
+        <script src="../js/ui.js" defer></script>
+        <script src="../js/search.js" defer></script>
+        <script src="../js/main.js" defer></script>
+    </head>
+    <body>
+        <header class="site-header container">
+            <a class="logo" href="./index.html">
+                <img src="../assets/images/logo.svg" alt="Weather Now" width="197" height="40">
+            </a>
+
+            <div class="dropdown units">
+                <button class="btn-units" type="button" id="units-toggle" aria-expanded="false" aria-controls="units-menu">
+                    <img src="../assets/images/icon-units.svg" alt="" width="16" height="16">
+                    <span>Units</span>
+                    <img class="chevron" src="../assets/images/icon-dropdown.svg" alt="" width="13" height="8">
+                </button>
+
+                <div class="dropdown-menu units-menu" id="units-menu" hidden>
+                    <button class="menu-item" type="button" id="units-system-toggle">Switch to Imperial</button>
+
+                    <div class="menu-group" role="group" aria-labelledby="units-temp-label">
+                        <p class="menu-label" id="units-temp-label">Temperature</p>
+                        <button class="menu-item" type="button" data-unit-type="temperature" data-unit="celsius" aria-pressed="true">Celsius (°C)</button>
+                        <button class="menu-item" type="button" data-unit-type="temperature" data-unit="fahrenheit" aria-pressed="false">Fahrenheit (°F)</button>
+                    </div>
+
+                    <div class="menu-group" role="group" aria-labelledby="units-wind-label">
+                        <p class="menu-label" id="units-wind-label">Wind Speed</p>
+                        <button class="menu-item" type="button" data-unit-type="wind" data-unit="kmh" aria-pressed="true">km/h</button>
+                        <button class="menu-item" type="button" data-unit-type="wind" data-unit="mph" aria-pressed="false">mph</button>
+                    </div>
+
+                    <div class="menu-group" role="group" aria-labelledby="units-precip-label">
+                        <p class="menu-label" id="units-precip-label">Precipitation</p>
+                        <button class="menu-item" type="button" data-unit-type="precipitation" data-unit="mm" aria-pressed="true">Millimeters (mm)</button>
+                        <button class="menu-item" type="button" data-unit-type="precipitation" data-unit="inch" aria-pressed="false">Inches (in)</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="container">
+            <!-- Default view: hero, search and weather -->
+            <div class="app" id="app">
+                <h1 class="hero-title">How’s the sky looking today?</h1>
+
+                <form class="search" id="search-form" role="search" autocomplete="off" novalidate>
+                    <div class="search-field">
+                        <label class="sr-only" for="search-input">Search for a place</label>
+                        <img class="search-icon" src="../assets/images/icon-search.svg" alt="" width="21" height="21">
+                        <input
+                            class="search-input"
+                            id="search-input"
+                            type="search"
+                            name="location"
+                            placeholder="Search for a place..."
+                            role="combobox"
+                            aria-autocomplete="list"
+                            aria-expanded="false"
+                            aria-controls="search-suggestions"
+                        >
+
+                        <div class="dropdown-menu search-dropdown" id="search-dropdown" hidden>
+                            <p class="search-status" id="search-status" hidden>
+                                <img class="spin" src="../assets/images/icon-loading.svg" alt="" width="16" height="16">
+                                <span>Search in progress</span>
+                            </p>
+                            <ul class="suggestions" id="search-suggestions" role="listbox" aria-label="Matching places"></ul>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+
+                <p class="no-results" id="no-results" hidden>No search result found!</p>
+
+                <div class="weather" id="weather">
+                    <div class="weather-main">
+                        <section class="current" id="current" aria-labelledby="current-location" aria-busy="true">
+                            <div class="current-loading">
+                                <span class="dots" aria-hidden="true"><span></span><span></span><span></span></span>
+                                <p>Loading...</p>
+                            </div>
+
+                            <div class="current-content">
+                                <div class="current-place">
+                                    <h2 class="current-location" id="current-location"></h2>
+                                    <p class="current-date"><time id="current-date"></time></p>
+                                </div>
+                                <div class="current-reading">
+                                    <img class="current-icon" id="current-icon" src="../assets/images/icon-sunny.webp" alt="" width="120" height="120">
+                                    <p class="current-temp" id="current-temp"></p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section aria-label="Current details">
+                            <dl class="metrics">
+                                <div class="metric">
+                                    <dt>Feels Like</dt>
+                                    <dd id="metric-feels">—</dd>
+                                </div>
+                                <div class="metric">
+                                    <dt>Humidity</dt>
+                                    <dd id="metric-humidity">—</dd>
+                                </div>
+                                <div class="metric">
+                                    <dt>Wind</dt>
+                                    <dd id="metric-wind">—</dd>
+                                </div>
+                                <div class="metric">
+                                    <dt>Precipitation</dt>
+                                    <dd id="metric-precipitation">—</dd>
+                                </div>
+                            </dl>
+                        </section>
+
+                        <section class="daily" aria-labelledby="daily-title">
+                            <h2 class="section-title" id="daily-title">Daily forecast</h2>
+                            <ol class="daily-list" id="daily-list"></ol>
+                        </section>
+                    </div>
+
+                    <section class="hourly" aria-labelledby="hourly-title">
+                        <div class="hourly-header">
+                            <h2 class="section-title" id="hourly-title">Hourly forecast</h2>
+
+                            <div class="dropdown">
+                                <button class="btn-day" type="button" id="day-toggle" aria-expanded="false" aria-controls="day-menu" aria-label="Select day" disabled>
+                                    <span id="day-toggle-label">–</span>
+                                    <img class="chevron" src="../assets/images/icon-dropdown.svg" alt="" width="13" height="8">
+                                </button>
+                                <ul class="dropdown-menu day-menu" id="day-menu" hidden></ul>
+                            </div>
+                        </div>
+
+                        <ol class="hourly-list" id="hourly-list" tabindex="0" aria-label="Hourly temperatures"></ol>
+                    </section>
+                </div>
+            </div>
+
+            <!-- API error view -->
+            <section class="error" id="error" hidden>
+                <img src="../assets/images/icon-error.svg" alt="" width="42" height="42">
+                <h2 class="error-title">Something went wrong</h2>
+                <p class="error-text">We couldn’t connect to the server (API error). Please try again in a few moments.</p>
+                <button class="btn btn-secondary" type="button" id="retry-btn">
+                    <img src="../assets/images/icon-retry.svg" alt="" width="16" height="17">
+                    Retry
+                </button>
+            </section>
+
+            <p class="sr-only" id="status" role="status" aria-live="polite"></p>
+        </main>
+
+        <!-- Templates filled in by JS -->
+        <template id="daily-template">
+            <li class="day-card">
+                <h3 class="day-name"></h3>
+                <img class="day-icon" src="" alt="" width="60" height="60" loading="lazy">
+                <p class="day-temps">
+                    <span class="day-max"></span>
+                    <span class="day-min"></span>
+                </p>
+            </li>
+        </template>
+
+        <template id="hourly-template">
+            <li class="hour-item">
+                <img class="hour-icon" src="" alt="" width="40" height="40" loading="lazy">
+                <time class="hour-time"></time>
+                <span class="hour-temp"></span>
+            </li>
+        </template>
+    </body>
+</html>

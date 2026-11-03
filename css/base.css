@@ -1,0 +1,48 @@
+/* Base elements, utilities and shared animations */
+
+body {
+    min-height: 100vh;
+    background-color: var(--neutral-900);
+    color: var(--neutral-0);
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.2;
+    -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+    outline: 2px solid var(--neutral-0);
+    outline-offset: 3px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.container {
+    width: min(100% - 2 * var(--gutter), 76rem);
+    margin-inline: auto;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

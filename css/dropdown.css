@@ -1,0 +1,60 @@
+/* Shared dropdown menu (units, day selector, search suggestions) */
+
+.dropdown {
+    position: relative;
+}
+
+.chevron {
+    transition: transform var(--transition);
+}
+
+[aria-expanded="true"] > .chevron {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    z-index: 10;
+    top: calc(100% + 0.625rem);
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    background-color: var(--neutral-800);
+    border: 1px solid var(--neutral-600);
+    border-radius: var(--radius-md);
+    box-shadow: 0 0.5rem 1rem hsla(243, 96%, 9%, 0.32);
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.625rem 0.5rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    text-align: left;
+    transition: background-color var(--transition);
+}
+
+.menu-item:hover,
+.menu-item.is-active,
+.menu-item[aria-pressed="true"],
+.menu-item[aria-selected="true"] {
+    background-color: var(--neutral-700);
+}
+
+.menu-item:focus-visible {
+    outline: none;
+    border-color: var(--neutral-0);
+}
+
+.menu-item[aria-pressed="true"]::after {
+    content: "";
+    width: 14px;
+    height: 11px;
+    background: url("../assets/images/icon-checkmark.svg") no-repeat center;
+}

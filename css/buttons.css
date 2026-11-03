@@ -1,0 +1,37 @@
+/* Buttons */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition);
+}
+
+.btn-primary {
+    padding: 1rem 1.5rem;
+    background-color: var(--blue-500);
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background-color: var(--blue-700);
+}
+
+.btn-primary:focus-visible {
+    outline-color: var(--blue-500);
+}
+
+.btn-secondary {
+    padding: 0.75rem 1rem;
+    background-color: var(--neutral-800);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.btn-secondary:hover {
+    background-color: var(--neutral-700);
+}
